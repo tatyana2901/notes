@@ -18,8 +18,8 @@
         <td><span th:text="${line.text}"/></td>
         <td>
             <a th:href="@{'/deleteNote?id=' + ${line.id}}"> <button>Удалить</button></a>
+            <a th:href="@{/editNote/{id}(id=${line.id})}"> <button>Редактировать</button></a>
         </td>
-
 
 
     </tr>

@@ -3,7 +3,7 @@ package com.example.notes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,9 +25,28 @@ public class NoteController {
         ns.deleteById(id);
         return "redirect:/";
     }
+    @GetMapping("/editNote/{id}")
+    public String edit(@PathVariable int id, Model model) {
+
+       Note note =  ns.getNoteById(id);
+       model.addAttribute("note",note);
+        System.out.println(note);
+        return "edit-view";
+    }
+
+    @PostMapping ("/update_note")
+    public String updateNote(@ModelAttribute Note note) {
+
+        System.out.println(note.getId());
+
+        System.out.println(" ВНИМАНИЕ!!!!!! ");
+
+
+        return "redirect:/";
+    }
 
     @GetMapping("/added")
-    public String addNote(String data, String text, Model model) {
+    public String addNote(String data, String text) {
         ns.add(data, text);
 
         return "redirect:/";

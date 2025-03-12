@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>редактирование заметки</title>
+</head>
+<body>
+
+
+
+<form action="#" th:action="@{/update_note}" th:object="${note}" method="post">
+    <span name="id" th:text="*{id}"></span>
+    <input type="text" name="date" th:field="*{date}"/>
+    <input type="text" name="text" th:field="*{text}"/>
+
+  <input type="submit" value="Сохранить">
+</form>
+
+
+
+
+</body>
+</html>
