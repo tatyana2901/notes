@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Заметки</title>
+</head>
+<body>
+<table border="1" style="width:300px">
+    <tr>
+        <th>id</th>
+        <th>Дата</th>
+        <th>Содержание</th>
+    </tr>
+    <tr th:each="line : ${tab_lines}">
+
+        <td><span th:text="${line.id}"/></td>
+        <td><span th:text="${line.date}"/></td>
+        <td><span th:text="${line.text}"/></td>
+        <td>
+            <a th:href="@{'/deleteNote?id=' + ${line.id}}"> <button>Удалить</button></a>
+        </td>
+
+
+
+    </tr>
+
+
+</table>
+
+<br>
+<br>
+<br>
+<form action="/added">
+    Добавить новую заметку:
+    <br>
+    <label> Дата<input type="date" name="data" required> </label>
+    <br>
+    <label> Содержание<input type="text" name="text" required> </label>
+    <br>
+    <input type="submit" value="Добавить">
+</form>
+</body>
+</html>
