@@ -4,19 +4,66 @@
     <meta charset="UTF-8">
     <title>редактирование заметки</title>
 </head>
+<style>
+    .field {
+   display: flex;
+   justify-content: center;
+ }
+
+ fieldset { display: inline-block; }
+
+ .field label, .field input {
+   margin: 2px;
+ }
+
+ form {
+   width: 290px;
+   padding: 8px 20px 8px 8px;
+
+ }
+
+ .field label {
+    flex: 1 1 0;
+  font-weight: bold;
+ }
+
+ .field input[type="number"] {
+   padding: 2px;
+   width: 140px;
+
+ }
+
+ .field input[type="submit"] {
+   padding: 3px 10px;
+   margin-right: 40px;
+
+   border: none;
+  }
+</style>
 <body>
 
-
+<fieldset>
+    <legend>Редактирование заметки</legend>
 
 <form action="#" th:action="@{/update_note}" th:object="${note}" method="post">
 
     <input type="hidden" name="id" th:field="*{id}"/>
-    <input type="text" name="date" th:field="*{date}"/>
-    <input type="text" name="text" th:field="*{text}"/>
 
+    <div class="field">
+    <label for="d"> Дата </label>
+    <input type="date" name="date" id ="d" th:field="*{date}"/>
+    </div>
+
+    <div class="field">
+    <label for="t"> Содержание</label>
+    <input type="text" name="text" id ="t" th:field="*{text}"/>
+    </div>
+
+    <div class="field">
   <input type="submit" value="Сохранить">
+    </div>
 </form>
-
+</fieldset>
 
 
 

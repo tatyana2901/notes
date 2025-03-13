@@ -3,10 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <title>Заметки</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style>
+        .field {
+       display: flex;
+       justify-content: center;
+     }
+
+     fieldset { display: inline-block; }
+
+     .field label, .field input {
+       margin: 2px;
+     }
+
+     form {
+       width: 290px;
+       padding: 8px 20px 8px 8px;
+
+     }
+
+     .field label {
+        flex: 1 1 0;
+      font-weight: bold;
+     }
+
+     .field input[type="number"] {
+       padding: 2px;
+       width: 140px;
+
+     }
+
+     .field input[type="submit"] {
+       padding: 3px 10px;
+       margin-right: 40px;
+
+       border: none;
+      }
+    </style>
 </head>
 <body>
-<table border="1" style="width:300px">
+<table border="1" style="width:550px">
     <tr>
         <th>id</th>
         <th>Дата</th>
@@ -15,12 +51,16 @@
     </tr>
     <tr th:each="line : ${tab_lines}">
 
-        <td><span th:text="${line.id}"/></td>
-        <td><span th:text="${line.date}"/></td>
-        <td><span th:text="${line.text}"/></td>
+        <td style="width: 50px;"><span th:text="${line.id}"/></td>
+        <td style="width: 100px;"><span th:text="${line.date}"/></td>
+        <td style="width: 300px;"><span th:text="${line.text}"/></td>
         <td>
-            <a th:href="@{'/deleteNote?id=' + ${line.id}}"> <button>Удалить</button></a>
-            <a th:href="@{/editNote/{id}(id=${line.id})}"> <button>Редактировать</button></a>
+            <a th:href="@{'/deleteNote?id=' + ${line.id}}">
+                <button>Удалить</button>
+            </a>
+            <a th:href="@{/editNote/{id}(id=${line.id})}">
+                <button>Редактировать</button>
+            </a>
         </td>
     </tr>
 </table>
@@ -28,20 +68,35 @@
 <br>
 <br>
 <br>
+
 <fieldset>
-    Добавьте новую заметку
+    <legend>Добавьте новую заметку</legend>
 
-<form action="/added" >
-    <label> Номер(id)<input type="number" min="1" name="id" required> </label>
-    <br>
-    <label> Дата<input type="date" name="data" required> </label>
-    <br>
-    <label> Содержание<input type="text" name="text" required> </label>
-    <br>
-    <input type="submit" value="Добавить">
+    <form action="/added">
 
-</form>
+        <div class="field">
+        <label for="num"> Номер(id)</label>
+        <input type="number" min="1" name="id" id ="num" required >
+        </div>
+
+        <div class="field">
+        <label for="d"> Дата </label>
+        <input type="date" name="data" id ="d" required>
+        </div>
+
+         <div class="field">
+         <label for="t"> Содержание</label>
+         <input type="text" name="text" id ="t" required>
+         </div>
+
+         <div class="field">
+         <input type="submit" name="resultButton" value="Добавить">
+         </div>
+
+
+    </form>
 </fieldset>
+
 <p th:if="${err != null}"><span th:text="${err}"></span></p>
 </body>
 </html>
