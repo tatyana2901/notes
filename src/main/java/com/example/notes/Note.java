@@ -1,6 +1,7 @@
 package com.example.notes;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Note {
 
@@ -42,10 +43,7 @@ public class Note {
 
     @Override
     public String toString() {
-        return "Note{" +
-                "id=" + id +
-                ", date=" + date +
-                ", text='" + text + '\'' +
-                '}';
+        return id + ";" + date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + ";" + text;
     }
+
 }

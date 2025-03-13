@@ -1,11 +1,18 @@
 package com.example.notes;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 @Service
@@ -38,7 +45,7 @@ public class NoteService {
         return opt.isEmpty();
     }
 
-    public void editNote(Note note){
+    public void editNote(Note note) {
         Note updNote = getNoteById(note.getId());
         updNote.setDate(note.getDate());
         updNote.setText(note.getText());
@@ -53,5 +60,21 @@ public class NoteService {
                 Integer.parseInt(dates[1]),
                 Integer.parseInt(dates[2]));
         notes.add(new Note(id, ld, text));
+    }
+
+
+    @Scheduled(fixedDelay = 30000)
+    public void saveNotesToFile() {
+
+        String fileName = "savedNotes.txt";
+        List<String> savedList = notes.stream().map(Note::toString).toList();
+
+        try (FileWriter fw = new FileWriter(fileName)) {
+            Files.write(Paths.get(fileName), savedList, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+
     }
 }
