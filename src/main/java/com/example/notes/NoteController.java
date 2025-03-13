@@ -25,31 +25,32 @@ public class NoteController {
         ns.deleteById(id);
         return "redirect:/";
     }
+
     @GetMapping("/editNote/{id}")
     public String edit(@PathVariable int id, Model model) {
 
-       Note note =  ns.getNoteById(id);
-       model.addAttribute("note",note);
-        System.out.println(note);
+        Note note = ns.getNoteById(id);
+        model.addAttribute("note", note);
         return "edit-view";
     }
 
-    @PostMapping ("/update_note")
+    @PostMapping("/update_note")
     public String updateNote(@ModelAttribute Note note) {
-
-        System.out.println(note.getId());
-
-        System.out.println(" ВНИМАНИЕ!!!!!! ");
-
-
+        ns.editNote(note);
         return "redirect:/";
     }
 
     @GetMapping("/added")
-    public String addNote(String data, String text) {
-        ns.add(data, text);
+    public String addNote(int id, String data, String text, Model model) {
 
-        return "redirect:/";
+        if (ns.isIdUnique(id)) {
+            ns.add(id, data, text);
+        } else model.addAttribute("err", "Заметка с таким id уже существует!"); ;
+
+        List<Note> list = ns.getNotes();
+        model.addAttribute("tab_lines", list);
+
+        return "first-view";
     }
 
 

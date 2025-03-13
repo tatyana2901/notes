@@ -33,11 +33,17 @@
 <form action="/added">
     Добавить новую заметку:
     <br>
+    <label> Номер(id)<input type="number" name="id" required> </label>
+    <br>
     <label> Дата<input type="date" name="data" required> </label>
     <br>
     <label> Содержание<input type="text" name="text" required> </label>
     <br>
+    <br>
+    <br>
     <input type="submit" value="Добавить">
+
 </form>
+<p th:if="${err != null}"><span th:text="${err}"></span></p>
 </body>
 </html>

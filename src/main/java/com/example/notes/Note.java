@@ -4,15 +4,13 @@ import java.time.LocalDate;
 
 public class Note {
 
-    public static int count = 0;
     private int id;
     private LocalDate date;
     private String text;
 
 
-    public Note(LocalDate date, String text) {
-        count++;
-        id = count;
+    public Note(int id, LocalDate date, String text) {
+        this.id = id;
         this.date = date;
         this.text = text;
     }

@@ -9,7 +9,8 @@
 
 
 <form action="#" th:action="@{/update_note}" th:object="${note}" method="post">
-    <span name="id" th:text="*{id}"></span>
+
+    <input type="hidden" name="id" th:field="*{id}"/>
     <input type="text" name="date" th:field="*{date}"/>
     <input type="text" name="text" th:field="*{text}"/>
 
