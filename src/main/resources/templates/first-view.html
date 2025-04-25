@@ -75,27 +75,21 @@
 
     <form action="/added" method="get" th:object="${note}">
 
-<!--
         <div class="field">
-        <label for="num"> Номер(id)</label>
-        <input type="number" min="1" name="id" id ="num" required >
-        </div>
--->
-
-        <div class="field">
-        <label for="date"> Дата </label>
-        <input type="date" name="date" id ="date" required>
+        <label for="d"> Дата </label>
+        <input type="date" th:field="*{date}" id ="d">
+            <span th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></span>
         </div>
 
          <div class="field">
-         <label for="content"> Содержание</label>
-         <input type="text" name="content" id ="content" required>
+         <label for="c"> Содержание</label>
+         <input type="text" th:field="*{content}" id ="c">
+             <span th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></span>
          </div>
 
          <div class="field">
          <input type="submit" name="resultButton" value="Добавить">
          </div>
-
 
     </form>
 </fieldset>

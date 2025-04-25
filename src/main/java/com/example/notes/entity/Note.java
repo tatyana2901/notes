@@ -1,6 +1,9 @@
 package com.example.notes.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+
+import jakarta.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -15,7 +18,9 @@ public class Note {
     private int id;
     @Column(name = "date")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @NotNull(message = "Внесите дату!")
     private LocalDate date;
+    @NotEmpty(message = "Внесите текст!")
     @Column(name = "content")
     private String content;
 

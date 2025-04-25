@@ -3,9 +3,11 @@ package com.example.notes.controller;
 import com.example.notes.entity.Note;
 import com.example.notes.service.NoteService;
 import com.example.notes.service.NoteServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +22,8 @@ public class NoteController {
     public String goToFirstView(Model model) {
         List<Note> list = noteService.getAllNotes();
         model.addAttribute("tab_lines", list);
+        //?
+        model.addAttribute("note", new Note());
         return "first-view";
     }
 
@@ -45,15 +49,16 @@ public class NoteController {
         }
     */
     @GetMapping("/added")
-    public String addNote(Note note, Model model) {
+    public String addNote(@Valid @ModelAttribute Note note, BindingResult bindingResult, Model model) {//важен порядок - bindingresult сразу после параметра валидации
 
-        //сделать валидацию notnull
+        if (bindingResult.hasErrors()) {
+            List<Note> list = noteService.getAllNotes();
+            model.addAttribute("tab_lines", list);
+            return "first-view";
 
+        }
         noteService.add(note);
-        List<Note> list = noteService.getAllNotes();
-        model.addAttribute("tab_lines", list);
-
-        return "first-view";
+        return "redirect:/";
     }
 
 
