@@ -52,8 +52,8 @@
     <tr th:each="line : ${tab_lines}">
 
         <td style="width: 50px;"><span th:text="${line.id}"/></td>
-        <td style="width: 100px;"><span th:text="${line.date}"/></td>
-        <td style="width: 300px;"><span th:text="${line.text}"/></td>
+        <td style="width: 100px;"><span th:text="${#temporals.format(line.date,'dd-MM-yyyy')}"/></td>
+        <td style="width: 300px;"><span th:text="${line.content}"/></td>
         <td>
             <a th:href="@{'/deleteNote?id=' + ${line.id}}">
                 <button>Удалить</button>
@@ -72,21 +72,24 @@
 <fieldset>
     <legend>Добавьте новую заметку</legend>
 
-    <form action="/added">
 
+    <form action="/added" method="get" th:object="${note}">
+
+<!--
         <div class="field">
         <label for="num"> Номер(id)</label>
         <input type="number" min="1" name="id" id ="num" required >
         </div>
+-->
 
         <div class="field">
-        <label for="d"> Дата </label>
-        <input type="date" name="data" id ="d" required>
+        <label for="date"> Дата </label>
+        <input type="date" name="date" id ="date" required>
         </div>
 
          <div class="field">
-         <label for="t"> Содержание</label>
-         <input type="text" name="text" id ="t" required>
+         <label for="content"> Содержание</label>
+         <input type="text" name="content" id ="content" required>
          </div>
 
          <div class="field">

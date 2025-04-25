@@ -1,5 +1,8 @@
-package com.example.notes;
+package com.example.notes.service;
 
+import com.example.notes.entity.Note;
+import com.example.notes.repository.NoteRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -12,24 +15,37 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
-import java.util.function.Predicate;
 
 @Service
-public class NoteService {
+public class NoteServiceImpl implements NoteService {
 
-    private List<Note> notes = new ArrayList<>();
+    @Autowired
+    private NoteRepository noteRepository;
 
-    public List<Note> getNotes() {
-        return notes;
-    }
 
-    public NoteService() {
-        notes.add(new Note(1, LocalDate.of(2025, 5, 10), "Вернуть другу журналы и книги."));
+    public NoteServiceImpl() {
 
     }
 
-    public Note getNoteById(int id) {
+    @Override
+    public List<Note> getAllNotes() {
+        return noteRepository.findAll();
+    }
+
+    @Override
+    public void deleteById(int id) {
+        noteRepository.deleteById(id);
+
+    }
+
+    @Override
+    public void add(Note note) {
+        noteRepository.save(note);
+    }
+
+
+
+   /* public Note getNoteById(int id) {
         Optional<Note> o = notes.stream().filter(note -> note.getId() == id).findFirst();
         return o.orElse(null);
     }
@@ -63,7 +79,7 @@ public class NoteService {
     }
 
 
-    @Scheduled(fixedDelay = 30000)
+  //  @Scheduled(fixedDelay = 30000)
     public void saveNotesToFile() {
 
         String fileName = "savedNotes.txt";
@@ -77,4 +93,6 @@ public class NoteService {
 
 
     }
+*/
+
 }
