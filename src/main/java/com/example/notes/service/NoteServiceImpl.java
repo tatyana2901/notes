@@ -2,7 +2,6 @@ package com.example.notes.service;
 import com.example.notes.entity.Note;
 import com.example.notes.repository.NoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import java.util.*;
 
@@ -46,23 +45,5 @@ public class NoteServiceImpl implements NoteService {
         noteRepository.save(updNote);
     }
 
-
-/*
-
-  //  @Scheduled(fixedDelay = 30000)
-    public void saveNotesToFile() {
-
-        String fileName = "savedNotes.txt";
-        List<String> savedList = notes.stream().map(Note::toString).toList();
-
-        try (FileWriter fw = new FileWriter(fileName)) {
-            Files.write(Paths.get(fileName), savedList, StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-
-
-    }
-*/
 
 }

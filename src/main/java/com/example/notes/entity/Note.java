@@ -1,5 +1,4 @@
 package com.example.notes.entity;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 
