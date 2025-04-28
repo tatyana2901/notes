@@ -20,4 +20,6 @@
 *  PostgreSQL
 *  Thymeleaf
 *  Jakarta Validation API
+*  Mockito
+*  Junit
 
