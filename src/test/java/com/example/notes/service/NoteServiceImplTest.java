@@ -15,8 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class NoteServiceImplTest {
@@ -39,8 +38,7 @@ class NoteServiceImplTest {
         Note note4 = new Note(LocalDate.of(2025, 5, 4), "Note_4");
         note4.setId(1);
 
-        Mockito.doReturn(Arrays.asList(note3, note4, note2, note1)).when(noteRepository).findAll(); //задаем результат работы метода findAll
-
+        Mockito.doReturn(Arrays.asList(note1, note2, note3, note4)).when(noteRepository).findAll(); //задаем результат работы метода findAll
         //act - выполняем метод после предварительной подготовки данных
         List<Note> result = noteService.getAllNotes();
 
@@ -60,27 +58,61 @@ class NoteServiceImplTest {
 
     @Test
     void deleteById() {
+        //arrange
+        Note noteToDelete = new Note(LocalDate.now(), "noteToDelete");
+        noteToDelete.setId(5);
+        //act
+        noteService.deleteById(5);
+        //assert
+        verify(noteRepository).deleteById(noteToDelete.getId());
     }
 
     @Test
     void add() {
+        //arrange
+        Note noteToSave = new Note(LocalDate.now(), "savedNote");
+        //act
+        noteService.add(noteToSave);
+        //assert
+        verify(noteRepository).save(noteToSave); //проверка, что при вызове метода add() был вызван метод save()
     }
 
     @Test
     void getNoteById_ShouldReturnNote_WhenNoteExists() {
-        //arrange - подготавливае данные для тестирования
+        //arrange - подготавливаем данные для тестирования
         Note note = new Note(LocalDate.now(), "test_note");
         note.setId(1);
         Mockito.doReturn(Optional.of(note)).when(noteRepository).findById(1);
         //act - выполняем тестируемый метод
         Note result = noteService.getNoteById(1);
-
         //assert - проверяем, совпадает ли фактический результат с ожидаемым
         assertEquals(note, result);
-        verify(noteRepository, times(1)).findById(1);
+        verify(noteRepository, times(1)).findById(1); //проверка что при вызове метода getById() был вызван метод findById()
     }
 
     @Test
-    void updateNote() {
+    void updateNote_whenIdExists() {
+        //arrange
+        Note original = new Note(LocalDate.of(2025, 4, 2), "original");
+        original.setId(2);
+        Note updatedResult = new Note(LocalDate.of(2025, 9, 7), "updated"); //то, что передается в реальный метод update в виде параметра
+        updatedResult.setId(2);
+        when(noteRepository.findById(updatedResult.getId())).thenReturn(Optional.of(original));//задаем правило, по которому при вызое метода findId возвращается original note
+        //act
+        noteService.updateNote(updatedResult);
+        //assert
+        verify(noteRepository).save(original);
+        assertEquals("updated", original.getContent()); //проверяем, что первоначальные данные originalNote поменялись на новые
+        assertEquals(LocalDate.of(2025, 9, 7), original.getDate());
+
+    }
+    @Test
+    void updateNote_whenIdNotExist() {
+        //arrange
+        Note original = null;
+        Note updatedResult = new Note(LocalDate.of(2025, 9, 7), "updated"); //то, что передается в реальный метод update в виде параметра
+        updatedResult.setId(2);
+        //assert
+        assertThrows(NullPointerException.class,()->noteService.updateNote(updatedResult));
     }
 }
